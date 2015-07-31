@@ -171,8 +171,7 @@ public class CommandManager implements CommandExecutor {
                                             flagValue = flagValue.concat(args[i] + " ");
                                         }
                                         flagValue = flagValue.substring(0, flagValue.length()-1);
-                                        //plugin.pm.setFlag(player, args[1], flagValue);
-                                        plugin.sendMessage(cs, "Not implemented yet!");
+                                        plugin.pm.setFlag(player, args[1], flagValue);
                                     } else {
                                         plugin.sendMessage(cs, ChatColor.RED
                                             + tm.getText("not_configurable_flag"));                                        

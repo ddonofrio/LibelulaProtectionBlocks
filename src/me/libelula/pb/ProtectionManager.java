@@ -785,7 +785,7 @@ public class ProtectionManager {
                     Bukkit.getScheduler().runTask(plugin, new Runnable() {
                         @Override
                         public void run() {
-                            plugin.getWG().setFlag(pb.getPcr(), 
+                            plugin.getWG().setFlag(pb.getPcr(), pb.getWorld(),
                                     DefaultFlag.fuzzyMatchFlag(flagName), value);
                         }
                     });

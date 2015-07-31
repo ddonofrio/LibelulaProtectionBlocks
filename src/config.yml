@@ -27,6 +27,7 @@ ps-default:
     ghast-fireball: deny
     enderman-grief: deny
     leaf-decay: deny
+    deny-spawn: zombie, skeleton, creeper, witch, wolf, spider, slime, bat
     
 # The list of player's configurable flags. Only WorldGuard flags listed here
 # can be used by normal player during game for configuring them regions.

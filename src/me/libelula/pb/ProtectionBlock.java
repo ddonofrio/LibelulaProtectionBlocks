@@ -91,8 +91,8 @@ public class ProtectionBlock implements Comparable<ProtectionBlock> {
         this.location = location;
         if (location != null) {
             setBlockVectors();
-            this.pcr = plugin.getWG().getProtectedRegion(this);
             world = location.getWorld();
+            this.pcr = plugin.getWG().getProtectedRegion(this);
         } else {
             max = null;
             min = null;

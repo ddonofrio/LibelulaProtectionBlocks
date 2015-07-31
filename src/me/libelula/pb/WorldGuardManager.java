@@ -160,22 +160,25 @@ public class WorldGuardManager {
         RegionManager regions = container.get(pb.getLocation().getWorld());
         ProtectedCuboidRegion pcr = null;
         if (regions != null) {
-            pcr = new ProtectedCuboidRegion(
-                    pb.getRegionName(), pb.getMin(), pb.getMax());
+            pcr = (ProtectedCuboidRegion) regions.getRegion(pb.getRegionName());
+            if (pcr == null) {
+                pcr = new ProtectedCuboidRegion(
+                        pb.getRegionName(), pb.getMin(), pb.getMax());
 
-            // Default flags.
-            for (Flag flag : defaultKeys.keySet()) {
-                String value = defaultKeys.get(flag);
-                switch (flag.getName()) {
-                    case "greeting":
-                    case "farewell":
-                        value = value.replaceAll("%PLAYER%", pb.getPlayerName());
+                // Default flags.
+                for (Flag flag : defaultKeys.keySet()) {
+                    String value = defaultKeys.get(flag);
+                    switch (flag.getName()) {
+                        case "greeting":
+                        case "farewell":
+                            value = value.replaceAll("%PLAYER%", pb.getPlayerName());
+                    }
+                    setFlag(pcr, pb.getWorld(), flag, value);
                 }
-                setFlag(pcr, flag, value);
+                DefaultDomain dd = new DefaultDomain();
+                dd.addPlayer(pb.getPlayerUUID());
+                pcr.setOwners(dd);
             }
-            DefaultDomain dd = new DefaultDomain();
-            dd.addPlayer(pb.getPlayerUUID());
-            pcr.setOwners(dd);
         }
         return pcr;
     }
@@ -223,18 +226,33 @@ public class WorldGuardManager {
     }
 
     @SuppressWarnings("unchecked")
-    public void setFlag(ProtectedRegion pr, Flag flag, String value) {
-        StateFlag.State state = null;
-        switch (value.toLowerCase()) {
-            case "allow":
-                pr.setFlag(flag, state = StateFlag.State.ALLOW);
-                break;
-            case "deny":
-                pr.setFlag(flag, state = StateFlag.State.DENY);
-                break;
-            default:
-                pr.setFlag(flag, value);
-        }
+    public void setFlag(final ProtectedRegion pr, final World world,
+            final Flag flag, final String value) {
+        /*
+         StateFlag.State state = null;
+         switch (value.toLowerCase()) {
+         case "allow":
+         pr.setFlag(flag, state = StateFlag.State.ALLOW);
+         break;
+         case "deny":
+         pr.setFlag(flag, state = StateFlag.State.DENY);
+         break;
+         default:
+         pr.setFlag(flag, value);
+         }
+         */
+        // As WG API sucks I will implement this function using
+        // WG plugin commands. I hope to fix this one of those days...
+        Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+            @Override
+            public void run() {
+                Bukkit.dispatchCommand(plugin.getConsole(),
+                        "region flag -w " + world.getName() + " "
+                        + pr.getId() + " " + flag.getName() + " " + value);
+
+            }
+        }, 2);
+
     }
 
     public boolean overlapsUnownedRegion(ProtectedRegion region, Player player) {
