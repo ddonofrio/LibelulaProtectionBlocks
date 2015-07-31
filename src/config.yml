@@ -1,0 +1,121 @@
+# -
+# About editing this file:
+# * Don't edit this file if you aren't sure about what are you doing.
+# * Don't use tabs, this is a yaml file so you have to use spaces instead.
+# * Don't get rid of the indents. They are indented so some entries are
+#   in categories (like "configurable-flags" is in the "player" category.
+# * If you want to check the format of this file before putting it
+#   into this plugin, paste it into http://yaml-online-parser.appspot.com/
+#   and see if it gives "ERROR:".
+# * Lines starting with # are commentsand so they are ignored.
+# -
+
+# Don't touch this variable.
+config-version: 3
+
+ps-default:
+  flags:
+    # The values of "greeting" and "farewell" are references to your i18n file.
+    # You can change them from your .properties file or remove them if you
+    # want to leave them empty.
+    greeting: greeting-default-flag
+    farewell: farewell-default-flag
+    pvp: deny
+    creeper-explosion: deny
+    tnt: deny
+    fire-spread: deny
+    ghast-fireball: deny
+    enderman-grief: deny
+    leaf-decay: deny
+    
+# The list of player's configurable flags. Only WorldGuard flags listed here
+# can be used by normal player during game for configuring them regions.
+player:
+  configurable-flags:
+  - build
+  - chest-access
+  - creeper-explosion
+  - enderdragon-block-damage
+  - enderman-grief
+  - enderpearl
+  - entity-item-frame-destroy
+  - entity-painting-destroy
+  - farewell
+  - fire-spread
+  - ghast-fireball
+  - grass-growth
+  - greeting
+  - ice-form
+  - ice-melt
+  - lava-fire
+  - lava-flow
+  - leaf-decay
+  - lighter
+  - lightning
+  - mob-damage
+  - mob-spawning
+  - passthrough
+  - pistons
+  - potion-splash
+  - pvp
+  - sleep
+  - snow-fall
+  - snow-melt
+  - tnt
+  - use
+  - vehicle-destroy
+  - vehicle-place
+  - water-flow
+
+# Plugin messages prefix, put the name of your server here.
+prefix: '&1[&6Libelula PB&1]&e '
+
+# The language configuration. 
+# Remember that a file called i18n_<lang>_<country>.properties must to exists.
+# The default configuration is:
+# lang: en
+# country: US
+# So a file called i18n_en_US.properties will be loaded from the plugin/lang directory.
+# Included locales are:
+# lang: en, es
+# country: US, ES
+lang: en
+country: US
+
+# A list of worlds which will be ignored.
+ignored:
+  worlds: []
+
+# Allow players to have multiple Protection Blocks.
+# Players need pb.protection.multiple before they can have more than 1 protection.
+# You can set the default number of multiple homes using the 'default' rank below.
+# To remove the home limit entirely, give people 'pb.protection.unlimited'.
+# To grant different home amounts to different people, you need to define a 'home-rank' below.
+# Create the 'home-rank' below, and give the matching permission: pb.protection-multiple.<home-rank>
+protection-multiple:
+  default: 3
+  vip: 5
+  staff: 10
+  
+# Special flags
+# Here are configured the special flags which affects protection blocks.
+# The default configuration tells the plugin which materials will be replaced 
+# for automatic fences when a +FENCE protection block is placed:
+flags:
+  fence:
+    replace-materials: [AIR, LONG_GRASS, FENCE, DOUBLE_PLANT, 
+        YELLOW_FLOWER, RED_ROSE, RED_MUSHROOM, BROWN_MUSHROOM]
+    
+# Shop configuration
+# The configuration for creating shops. 
+shop:
+  enable: true
+  sign-first-line: [lpb]
+  price-decimals: 2
+  owner-name: Admin Shop
+  
+# Autosave options
+auto-save:
+  enabled: true
+  interval-minutes: 5
+  log-messages: false

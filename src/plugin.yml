@@ -1,0 +1,100 @@
+name: LibelulaProtectionBlocks
+version: "2.0.2 Alpha"
+main: me.libelula.pb.Main
+description: Libelula Protection Blocks
+author: Diego D'Onofrio <ddonofrio@member.fsf.org>
+depends: [WorldGuard]
+softdepends: [Vault]
+load: POSTWORLD
+website: http://libelula.me/
+commands:
+  ps:
+    description: Libelula Protection Blocks Main Command
+    usage: /ps
+    permission-message: You don't have <permission>
+    alias: [lpb]
+permissions:
+  pb.*:
+     description: Gives access to all Libelula Protection Blocks functions.
+     children:
+       pb.break.others: true
+       pb.create: true
+       pb.addmember.others: true
+       pb.reload: true
+       pb.removemember.others: true
+       pb.remove.all: true
+       pb.version: true
+       pb.unhide.force: true
+       pb.hide: true
+       pb.hideothers: true
+       pb.shop.create: true
+       pb.modifyflags: true
+       pb.modifyflags.others: true
+       pb.info.others: true
+       pb.protection.multiple: true
+       pb.protection.unlimited: true
+       pb.notification.receive: true
+       pb.buy: true
+       pb.place: true
+  pb.admin:
+     description: Gives access to administrative Libelula Protection Blocks functions.
+     children:
+       pb.break.others: true
+       pb.create: true
+       pb.addmember.others: true
+       pb.reload: true
+       pb.removemember.others: true
+       pb.remove.all: true
+       pb.version: true
+       pb.unhide.force: true
+       pb.hideothers: true
+       pb.shop.create: true
+       pb.modifyflags.others: true
+       pb.info.others: true
+       pb.protection.multiple: true
+       pb.protection.unlimited: true
+       pb.notification.receive: true
+  pb.player:
+     description: Gives access to Libelula Protection Blocks functions for players.
+     children:
+       pb.buy: true
+       pb.place: true
+       pb.hide: true
+       pb.modifyflags: true
+       pb.version: true
+  pb.addmember.others:
+    description: Allows player to add members to other player protection blocks.
+  pb.break.others:
+    description: Allows player to remove other player protection blocks.
+  pb.create:
+    description: Allows player to create protection blocks from a block in hand.
+  pb.removemember.others:
+    description: Allows player to remove members to other player protection blocks.
+  pb.shop.create: 
+    description: Allows player to create sign's shopb.
+    pb.version:
+    description: Allows player to see plugin Name, version and creator.
+  pb.unhide.force:
+    description: Allows player to unhide not hidden or stolen protection blocks.
+  pb.hide:
+    description: Allows player to hide/unhide him protection blocks.
+  pb.hide.others:
+    description: Allows player to hide/unhide other player protection blocks.
+  pb.remove.all:
+    description: Allows player to remove all protection blocks from a player.
+  pb.reload:
+    description: Allows player to reload plugin configuration.
+  pb.modifyflags:
+    description: Allows player to modify it owns protection blocks flags.
+  pb.modifyflags.others:
+    description: Allows player to modify others players protection blocks flags.
+  pb.protection.multiple:
+    description: Raise the multiple active protection limit to a setting defined in the config file.
+  pb.protection.unlimited:
+    description: Allows player to to have an unlimited amount of active protection blocks.
+  pb.notification.receive:
+    description: Allows admins to recieve notifications from the plugin.
+  pb.buy:
+    description: Allows player to buy protection blocks.
+  pb.place:
+    description: Allows player to place protection blocks.
