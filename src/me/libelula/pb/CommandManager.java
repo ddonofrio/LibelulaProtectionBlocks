@@ -158,25 +158,38 @@ public class CommandManager implements CommandExecutor {
                             }
                             break;
                         default:
-                            if (args[1].equalsIgnoreCase("list")) {
-                                showHelp(cs, "flag-list");
-                            } else {
-                                if (player == null) {
-                                    plugin.sendMessage(cs, ChatColor.RED
-                                            + tm.getText("ingame_command"));
-                                } else {
-                                    if (plugin.pm.getConfigurableFlags().contains(args[1])) {
-                                        String flagValue = "";
-                                        for (int i=2;i<args.length;i++) {
-                                            flagValue = flagValue.concat(args[i] + " ");
-                                        }
-                                        flagValue = flagValue.substring(0, flagValue.length()-1);
-                                        plugin.pm.setFlag(player, args[1], flagValue);
+                            switch (args[1].toLowerCase()) {
+                                case "list":
+                                    showHelp(cs, "flag-list");
+                                    break;
+                                case "del":
+                                case "remove":
+                                    if (plugin.pm.getConfigurableFlags().contains(args[2])) {
+                                        plugin.pm.setFlag(player, args[2], "");
+                                        plugin.sendMessage(cs, tm.getText("flag_removed",
+                                                args[2].toUpperCase()));
                                     } else {
                                         plugin.sendMessage(cs, ChatColor.RED
-                                            + tm.getText("not_configurable_flag"));                                        
+                                                + tm.getText("not_configurable_flag"));
                                     }
-                                }
+                                    break;
+                                default:
+                                    if (player == null) {
+                                        plugin.sendMessage(cs, ChatColor.RED
+                                                + tm.getText("ingame_command"));
+                                    } else {
+                                        if (plugin.pm.getConfigurableFlags().contains(args[1])) {
+                                            String flagValue = "";
+                                            for (int i = 2; i < args.length; i++) {
+                                                flagValue = flagValue.concat(args[i] + " ");
+                                            }
+                                            flagValue = flagValue.substring(0, flagValue.length() - 1);
+                                            plugin.pm.setFlag(player, args[1], flagValue);
+                                        } else {
+                                            plugin.sendMessage(cs, ChatColor.RED
+                                                    + tm.getText("not_configurable_flag"));
+                                        }
+                                    }
                             }
 
                     }
@@ -340,7 +353,9 @@ public class CommandManager implements CommandExecutor {
                 break;
             case "flag":
                 plugin.sendMessage(cs, ChatColor.RED
-                        + tm.getText("help_ps_flag"));
+                        + tm.getText("help_ps_flag"));                
+                plugin.sendMessage(cs, ChatColor.RED
+                        + tm.getText("help_ps_flag_remove"));
             // no break
             case "flag-list":
                 plugin.sendMessage(cs, ChatColor.RED
@@ -387,6 +402,7 @@ public class CommandManager implements CommandExecutor {
         result.add(tm.getText("help_ps_unhide"));
         result.add(tm.getText("help_ps_flag_list"));
         result.add(tm.getText("help_ps_flag"));
+        result.add(tm.getText("help_ps_flag_remove"));
         result.add(tm.getText("help_ps_info"));
         if (player == null || player.hasPermission("pb.reload")) {
             result.add(tm.getText("help_ps_reload"));

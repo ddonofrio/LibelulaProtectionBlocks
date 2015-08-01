@@ -25,13 +25,13 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.domains.DefaultDomain;
 import com.sk89q.worldguard.protection.flags.DefaultFlag;
 import com.sk89q.worldguard.protection.flags.Flag;
-import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.managers.storage.StorageException;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeMap;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -291,4 +291,15 @@ public class WorldGuardManager {
         return result;
     }
 
+    public TreeMap<World, RegionManager> getRegionManagers() {
+        return regionManagers;
+    }
+    
+    public Set<String> getRegionsIDs(World world) {
+        return regionManagers.get(world).getRegions().keySet();
+    }
+    
+    public ProtectedRegion getPcr(World world, String id) {
+        return regionManagers.get(world).getRegion(id);
+    }
 }

@@ -57,6 +57,7 @@ public class ProtectionBlock implements Comparable<ProtectionBlock> {
     private String name;
     private ProtectedCuboidRegion pcr;
     private World world;
+    private String pcrId;
 
     private final TextManager tm;
 
@@ -92,7 +93,9 @@ public class ProtectionBlock implements Comparable<ProtectionBlock> {
         if (location != null) {
             setBlockVectors();
             world = location.getWorld();
-            this.pcr = plugin.getWG().getProtectedRegion(this);
+            if (this.pcr == null) {
+                this.pcr = plugin.getWG().getProtectedRegion(this);
+            }
         } else {
             max = null;
             min = null;
@@ -103,6 +106,10 @@ public class ProtectionBlock implements Comparable<ProtectionBlock> {
 
     public Location getLocation() {
         return location;
+    }
+
+    public void setPcr(ProtectedCuboidRegion pcr) {
+        this.pcr = pcr;
     }
 
     public UUID getUuid() {
@@ -176,9 +183,17 @@ public class ProtectionBlock implements Comparable<ProtectionBlock> {
     }
 
     public String getRegionName() {
-        return "lpb-" + location.getBlockX() + "x"
-                + location.getBlockY() + "y"
-                + location.getBlockZ() + "z";
+        String result;
+        if (pcr != null) {
+            result = pcr.getId();
+        } else if (pcrId != null) {
+            result = pcrId;
+        } else {
+            result = "lpb-" + location.getBlockX() + "x"
+                    + location.getBlockY() + "y"
+                    + location.getBlockZ() + "z";
+        }
+        return result;
     }
 
     public BlockVector getMin() {
@@ -313,7 +328,8 @@ public class ProtectionBlock implements Comparable<ProtectionBlock> {
                 || mat == Material.LEAVES
                 || mat == Material.LEAVES_2
                 || mat == Material.IRON_PLATE
-                || mat == Material.GOLD_PLATE);
+                || mat == Material.GOLD_PLATE
+                || mat == Material.SPONGE);
     }
 
     @SuppressWarnings("deprecation")
@@ -391,5 +407,9 @@ public class ProtectionBlock implements Comparable<ProtectionBlock> {
             setLoreText(cs.getStringList("item.lore"));
             is.getItemMeta().setDisplayName("name");
         }
+    }
+
+    public void setPcrId(String pcrID) {
+        this.pcrId = pcrID;
     }
 }

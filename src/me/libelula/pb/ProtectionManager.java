@@ -120,7 +120,7 @@ public class ProtectionManager {
         }
     }
 
-    public boolean createProtectionBlock(Player player, 
+    public boolean createProtectionBlock(Player player,
             int maxX, int maxY, int maxZ) {
         boolean result = true;
         ItemStack itemInHand = player.getItemInHand();
@@ -666,7 +666,7 @@ public class ProtectionManager {
     }
 
     public void load() {
-        
+
         permissions.clear();
         fenceReplaces.clear();
         ConfigurationSection cs = plugin.getConfig()
@@ -685,13 +685,13 @@ public class ProtectionManager {
                     fenceReplaces.add(mat);
                 }
             }
-            
+
             configurableFlags.clear();
-            for (String defaultFlagName: plugin.getConfig()
+            for (String defaultFlagName : plugin.getConfig()
                     .getStringList("player.configurable-flags")) {
                 configurableFlags.add(defaultFlagName.toLowerCase());
             }
-            
+
             if (pbFile.exists()) {
                 try {
                     YamlConfiguration yc = new YamlConfiguration();
@@ -726,6 +726,7 @@ public class ProtectionManager {
                             for (String pbLocationString : yc.getConfigurationSection("placed")
                                     .getKeys(false)) {
                                 ProtectionBlock pb = new ProtectionBlock(plugin);
+                                pb.setPcrId(pbLocationString);
                                 pb.load(yc.getConfigurationSection("placed." + pbLocationString));
                                 materialsCache.add(pb.getMaterial());
                                 uuidsCache.put(pb.getUuid(), pb);
@@ -793,6 +794,23 @@ public class ProtectionManager {
             }
         });
     }
-    
-    
+
+    public void addPlacedPb(ProtectionBlock pb) {
+        _pb_mutex.lock();
+        try {
+            materialsCache.add(pb.getMaterial());
+            uuidsCache.put(pb.getUuid(), pb);
+            placedBlocks.put(pb.getLocation(), pb);
+            TreeSet<ProtectionBlock> playerPbs = playersBlocks.get(pb.getPlayerUUID());
+            if (playerPbs == null) {
+                playerPbs = new TreeSet<>();
+            }
+            playerPbs.add(pb);
+            playersBlocks.remove(pb.getPlayerUUID());
+            playersBlocks.put(pb.getPlayerUUID(), playerPbs);
+        } finally {
+            _pb_mutex.unlock();
+        }
+    }
+
 }

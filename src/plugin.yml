@@ -1,10 +1,10 @@
 name: LibelulaProtectionBlocks
-version: "2.0.3 Alpha"
+version: "2.0.5 Alpha"
 main: me.libelula.pb.Main
 description: Libelula Protection Blocks
 author: Diego D'Onofrio <ddonofrio@member.fsf.org>
 depends: [WorldGuard]
-softdepends: [Vault]
+softdepends: [Vault, ProtectionStones]
 load: POSTWORLD
 website: http://libelula.me/
 commands:

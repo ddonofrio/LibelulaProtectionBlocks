@@ -56,9 +56,15 @@ public class TextManager {
         
         File selectedLang = new File(i18nFolder, "i18n_" + lang.toLowerCase() 
                 + "_" + country.toUpperCase() + ".properties");
+        String langFileName = "lang/" + selectedLang.getName();
         
-        plugin.saveResource("lang/" + selectedLang.getName(), true);
-
+        if (plugin.getResource(langFileName) != null) {
+            plugin.saveResource(langFileName, true);
+        } else if (!new File (plugin.getDataFolder(), langFileName).exists()) {
+            plugin.alert("Invalid configured lang/country, setting to en/US");
+            plugin.saveResource("lang/i18n_en_US.properties", true);
+            currentLocale = new Locale("en", "US");
+        }
         messages = ResourceBundle.getBundle("i18n", currentLocale, loader);        
         plugin.getLogger().info(getText("i18n_selection"));
     }
