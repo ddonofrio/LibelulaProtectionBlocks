@@ -813,4 +813,8 @@ public class ProtectionManager {
         }
     }
 
+    public TreeMap<UUID, TreeSet<ProtectionBlock>> getPlayersBlocks() {
+        return playersBlocks;
+    }
+    
 }

@@ -329,7 +329,8 @@ public class ProtectionBlock implements Comparable<ProtectionBlock> {
                 || mat == Material.LEAVES_2
                 || mat == Material.IRON_PLATE
                 || mat == Material.GOLD_PLATE
-                || mat == Material.SPONGE);
+                || mat == Material.SPONGE
+                || mat == Material.TNT);
     }
 
     @SuppressWarnings("deprecation")
