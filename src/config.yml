@@ -78,8 +78,9 @@ prefix: '&1[&6Libelula PB&1]&e '
 # country: US
 # So a file called i18n_en_US.properties will be loaded from the plugin/lang directory.
 # Included locales are:
-# lang: en, es
-# country: US, ES
+# lang: en, es, de
+# country: US, ES, DE
+# Special thanks to EvilOlaf/Krauti2 for the German translation.
 lang: en
 country: US
 

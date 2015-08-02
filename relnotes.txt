@@ -21,5 +21,9 @@ v2.0.5:
     Fixes:
         * Missing translation for Spanish.
         * Small issue when importing form ProtectionStones
-        * 
+v2.0.7:
+    Improves:
+        * Added German translation by EvilOlaf/Krauti2
+    Fixes:
+        * Solved some minor bugs.
 
