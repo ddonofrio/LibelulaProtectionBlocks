@@ -19,6 +19,7 @@
 package me.libelula.pb;
 
 import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -26,6 +27,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPistonExtendEvent;
 import org.bukkit.event.block.BlockPistonRetractEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.ItemSpawnEvent;
 
 /**
@@ -83,7 +85,16 @@ public class EventManager implements Listener {
             }
         }
     }
-    
 
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    public void onEntityExplode(EntityExplodeEvent e) {
+        if (e.getEntity().getType() == EntityType.PRIMED_TNT) {
+            for (Block block : e.blockList()) {
+                if (!plugin.pm.isHidden(block.getLocation())) {
+                    e.blockList().remove(block);
+                }
+            }
+        }
+    }
 
 }

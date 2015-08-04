@@ -27,3 +27,6 @@ v2.0.7:
     Fixes:
         * Solved some minor bugs.
 
+v2.0.8:
+    Fixes:
+        * TnT can destroy the protection itself
