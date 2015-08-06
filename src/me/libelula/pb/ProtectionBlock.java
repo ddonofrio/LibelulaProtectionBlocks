@@ -413,4 +413,18 @@ public class ProtectionBlock implements Comparable<ProtectionBlock> {
     public void setPcrId(String pcrID) {
         this.pcrId = pcrID;
     }
+
+    public void removeRegion() {
+        if (!hidden && location != null) {
+            Bukkit.getScheduler().runTask(plugin, new Runnable() {
+                @Override
+                public void run() {
+                    location.getBlock().setType(Material.AIR);
+                }
+            });
+        }
+        if (pcr != null) {
+            plugin.getWG().removeRegion(this);
+        }
+    }
 }

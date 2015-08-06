@@ -291,7 +291,12 @@ public class CommandManager implements CommandExecutor {
                     if (args.length != 2) {
                         showHelp(cs, toLowerSubCommand);
                     } else {
-                        // implement
+                        if (cs.hasPermission("pb.remove.all")) {
+                            plugin.pm.removeAllPS(cs, args[1]);
+                        } else {
+                            plugin.sendMessage(cs, ChatColor.RED
+                                    + tm.getText("not_permission_this_command"));                            
+                        }
                     }
                     break;
                 case "+fence":

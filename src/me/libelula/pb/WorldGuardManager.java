@@ -210,7 +210,9 @@ public class WorldGuardManager {
                     Bukkit.getScheduler().runTask(plugin, new Runnable() {
                         @Override
                         public void run() {
-                            regions.removeRegion(pb.getPcr().getId());
+                            if (pb.getPcr() != null) {
+                                regions.removeRegion(pb.getPcr().getId());
+                            }
                             pb.setLocation(null);
                             try {
                                 regions.save();
@@ -294,11 +296,11 @@ public class WorldGuardManager {
     public TreeMap<World, RegionManager> getRegionManagers() {
         return regionManagers;
     }
-    
+
     public Set<String> getRegionsIDs(World world) {
         return regionManagers.get(world).getRegions().keySet();
     }
-    
+
     public ProtectedRegion getPcr(World world, String id) {
         return regionManagers.get(world).getRegion(id);
     }

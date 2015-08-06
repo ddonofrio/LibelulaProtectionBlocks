@@ -34,7 +34,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -301,12 +303,12 @@ public class ProtectionManager {
     }
 
     public void removePb(ProtectionBlock pb) {
-        if (pb.getLocation() != null) {
-            plugin.getWG().removeRegion(pb);
-        }
         _pb_mutex.lock();
         try {
-            placedBlocks.remove(pb.getLocation());
+            if (pb.getLocation() != null) {
+                plugin.getWG().removeRegion(pb);
+                placedBlocks.remove(pb.getLocation());
+            }
             if (pb.getPlayerUUID() != null) {
                 playersBlocks.get(pb.getPlayerUUID()).remove(pb);
             }
@@ -816,5 +818,51 @@ public class ProtectionManager {
     public TreeMap<UUID, TreeSet<ProtectionBlock>> getPlayersBlocks() {
         return playersBlocks;
     }
-    
+
+    @SuppressWarnings("deprecation")
+    public void removeAllPS(final CommandSender cs, final String playerName) {
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+            ProtectionBlock pb = null;
+
+            @Override
+            public void run() {
+
+                OfflinePlayer player = Bukkit.getOfflinePlayer(playerName);
+                if (player == null) {
+                    plugin.sendMessage(cs, ChatColor.RED
+                            + tm.getText("never_played", playerName));
+                } else {
+                    if (getPbs(player) != null) {
+                    plugin.sendMessage(cs, 
+                            tm.getText("removing_pbs", playerName));
+                        
+                        TreeSet<ProtectionBlock> pbs = new TreeSet<>();
+                        pbs.addAll(getPbs(player));
+                        if (pbs.isEmpty()) {
+                            plugin.sendMessage(cs, ChatColor.RED
+                                    + tm.getText("has_no_pbs", playerName));
+                        } else {
+                            for (ProtectionBlock pbL : pbs) {
+                                removePb(pbL);
+                                if (pbL.isPlaced()) {
+                                    pbL.removeRegion();
+                                }
+                            }
+                            plugin.sendMessage(cs, tm.getText("player_pbs_deleted",
+                                    pbs.size() + "", playerName));
+                        }
+                    }
+                }
+            }
+        });
+
+    }
+
+    public TreeSet<ProtectionBlock> getPbs(Player player) {
+        return playersBlocks.get(player.getUniqueId());
+    }
+
+    public TreeSet<ProtectionBlock> getPbs(OfflinePlayer player) {
+        return playersBlocks.get(player.getUniqueId());
+    }
 }
