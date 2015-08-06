@@ -79,7 +79,7 @@ public final class Main extends JavaPlugin {
                 if (importer.isOldPsActive()) {
                     importer.disableOldPs();
                     plugin.sendMessage(
-                            console, "&6Old fashioned plugin ProtectionBlock found and disabled.");
+                            console, "&6Old fashioned plugin ProtectionStones found and disabled.");
                     tryToImport = true;
                 }
 
